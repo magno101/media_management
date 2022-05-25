@@ -1,0 +1,140 @@
+version: "3"
+
+networks:
+  download_net:
+    driver: bridge
+
+volumes:
+  downloads_volume:
+    driver: local
+    driver_opts:
+       o: bind
+       type: none
+       device: /mnt/downloads
+  movies_volume:
+    driver: local
+    driver_opts:
+       o: bind
+       type: none
+       device: /mnt/media/movies
+  music_volume:
+    driver: local
+    driver_opts:
+       o: bind
+       type: none
+       device: /mnt/media/music
+  tv_volume:
+    driver: local
+    driver_opts:
+       o: bind
+       type: none
+       device: /mnt/media/television
+  lidarr_volume:
+  nginx_cache_volume:
+  nginx_error_log_volume:
+  pia_volume:
+  qbittorrent_volume:
+  radarr_volume:
+  sonarr_volume:
+
+services:
+  pia:
+    container_name: pia
+    networks:
+      download_net:
+    volumes:
+      - pia_volume:/pia
+    image: colinhebert/pia-openvpn:latest
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
+    ports:
+      - 8080:8080
+      - 6881:6881
+      - 6881:6881/udp
+      - 8989:8989
+      - 7878:7878
+      - 8686:8686
+    environment:
+      - REGION=${PIA_REGION}
+      - USERNAME=${PIA_USERNAME}
+      - PASSWORD=${PIA_PASSWORD}
+      - TZ=${TZ}
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    networks:
+      download_net:
+    volumes:
+      - ./custom/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - nginx_error_log_volume:/etc/nginx/error_log.log
+      - nginx_cache_volume:/etc/nginx/cache
+    ports: 
+      - 8888:8888
+  
+  qbittorrent:
+    container_name: qbittorrent
+    network_mode: 'service:pia'
+    image: lscr.io/linuxserver/qbittorrent:latest
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - WEBUI_PORT=8080
+    volumes:
+      - qbittorrent_volume:/config
+      - downloads_volume:/downloads
+    restart: unless-stopped
+    depends_on:
+      - pia
+
+  sonarr:
+    container_name: sonarr
+    network_mode: 'service:pia'
+    image: lscr.io/linuxserver/sonarr:latest
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - sonarr_volume:/config
+      - tv_volume:/tv
+      - downloads_volume:/downloads
+    restart: unless-stopped
+    depends_on:
+      - pia
+
+  radarr:
+    container_name: radarr
+    network_mode: 'service:pia'
+    image: lscr.io/linuxserver/radarr:latest
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - radarr_volume:/config
+      - movies_volume:/movies
+      - downloads_volume:/downloads
+    restart: unless-stopped
+    depends_on:
+      - pia
+
+  lidarr:
+    container_name: lidarr
+    network_mode: 'service:pia'
+    image: lscr.io/linuxserver/lidarr:latest
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - lidarr_volume:/config
+      - music_volume:/music
+      - downloads_volume:/downloads 
+    restart: unless-stopped
+    depends_on:
+      - pia

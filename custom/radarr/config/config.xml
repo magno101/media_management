@@ -1,0 +1,16 @@
+<Config>
+  <LogLevel>info</LogLevel>
+  <UrlBase>radarr</UrlBase>
+  <UpdateMechanism>Docker</UpdateMechanism>
+  <BindAddress>*</BindAddress>
+  <Port>7878</Port>
+  <SslPort>9898</SslPort>
+  <EnableSsl>False</EnableSsl>
+  <LaunchBrowser>True</LaunchBrowser>
+  <!--This API Key Should not be used, ensure that you generate a new one-->
+  <ApiKey>2fd2cceec0be4b58a803862a1e3fd53b</ApiKey>
+  <AuthenticationMethod>None</AuthenticationMethod>
+  <Branch>master</Branch>
+  <SslCertPath></SslCertPath>
+  <SslCertPassword></SslCertPassword>
+</Config>

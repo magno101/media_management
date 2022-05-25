@@ -1,0 +1,16 @@
+<Config>
+  <LogLevel>info</LogLevel>
+  <BindAddress>*</BindAddress>
+  <EnableSsl>False</EnableSsl>
+  <SslCertPath></SslCertPath>
+  <Port>8686</Port>
+  <UrlBase>lidarr</UrlBase>
+  <!--This API Key Should not be used, ensure that you generate a new one-->
+  <ApiKey>aa2c537652be46dba91f173399fcb9d3</ApiKey>
+  <AuthenticationMethod>None</AuthenticationMethod>
+  <UpdateMechanism>Docker</UpdateMechanism>
+  <SslPort>6868</SslPort>
+  <LaunchBrowser>True</LaunchBrowser>
+  <Branch>master</Branch>
+  <SslCertPassword></SslCertPassword>
+</Config>
