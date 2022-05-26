@@ -154,7 +154,15 @@ Once the repository is cloned we can get started customizing things.
    ./init.sh
    ```
 
-   This script will bring up the environment and then stop the containers. Once stopped it will then copy the config files in ./custom to the respective containers, and once done it will bring the containers back up.
+   This script will bring up the environment and then stop the containers. Once stopped it will then copy the config files in ./custom to the respective containers, and once done it will bring the containers back up and you should be good to start using the different programs.
+
+3. Connect to the different applications
+   
+   In order to connecto to the applications, you'll need to open a browser window and point it to the following:
+   * http://IPAddressOfDockerHost:8888/qbittorrent/
+   * http://IPAddressOfDockerHost:8888/lidarr/
+   * http://IPAddressOfDockerHost:8888/sonarr/
+   * http://IPAddressOfDockerHost:8888/radarr/
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
