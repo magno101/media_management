@@ -1,4 +1,5 @@
 <div id="top"></div>
+
 <!-- PROJECT SHIELDS -->
 <!--
 *** I'm using markdown "reference style" links for readability.
@@ -19,23 +20,17 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/github_username/repo_name">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
-
-<h3 align="center">project_title</h3>
+<h3 align="center">Media Management Using Docker Compose</h3>
 
   <p align="center">
-    project_description
+    A repository containing the artifacts needed in order to run a number of popular media management containers using Docker Compose.
     <br />
-    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/magno101/media_management"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/github_username/repo_name">View Demo</a>
+    <a href="https://github.com/magno101/media_management/issues">Report Bug</a>
     ·
-    <a href="https://github.com/github_username/repo_name/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/github_username/repo_name/issues">Request Feature</a>
+    <a href="https://github.com/magno101/media_management/issues">Request Feature</a>
   </p>
 </div>
 
@@ -55,11 +50,11 @@
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#clone-repository">Clone the Repository</a></li>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#open-issues">Open Issues</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -72,9 +67,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
+This project is meant to provide an example for any looking to setup qBittorrent, Sonarr, Radarr, and Lidarr behind a connection to the Private Internat Access VPN service. 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -82,14 +75,15 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 ### Built With
 
-* [Next.js](https://nextjs.org/)
-* [React.js](https://reactjs.org/)
-* [Vue.js](https://vuejs.org/)
-* [Angular](https://angular.io/)
-* [Svelte](https://svelte.dev/)
-* [Laravel](https://laravel.com)
-* [Bootstrap](https://getbootstrap.com)
-* [JQuery](https://jquery.com)
+* [Docker](https://www.docker.com/)
+* [Docker Compose](https://docs.docker.com/compose/)
+* [colinhebert/pia-openvpn](https://github.com/ColinHebert/pia-openvpn)
+* [nginx](https://hub.docker.com/_/nginx)
+* [lscr.io/linuxserver/qbittorrent](https://hub.docker.com/r/linuxserver/qbittorrent)
+* [lscr.io/linuxserver/lidarr](https://hub.docker.com/r/linuxserver/lidarr)
+* [lscr.io/linuxserver/radarr](https://hub.docker.com/r/linuxserver/radarr)
+* [lscr.io/linuxserver/sonarr](https://hub.docker.com/r/linuxserver/sonarr)
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -98,31 +92,23 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+First things first, we need to install a few things. I performed this using Ubuntu Server 20.0.4 LTS so that's how the instructions will be scopped. I can tell you that running this on a windows host using WSL2 does not work as DNS is broken. If someone knows how to fix it please let me know.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
-
-### Installation
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. [How To Install and Use Docker on Ubuntu 20.04](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04)
+2. [How To Install and Use Docker Compose on Ubuntu 20.04](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04)
+3. Install git
    ```sh
-   git clone https://github.com/github_username/repo_name.git
+   apt-get install git -y
    ```
-3. Install NPM packages
+
+### Clone Repository
+Lets clone the repository to your home folder.
+
    ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
+   cd ~
+   git clone https://github.com/magno101/media_management.git
    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -132,23 +118,50 @@ This is an example of how to list things you need to use the software and how to
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+Once the repository is cloned we can get started customizing things.
+1. Modify the '.env' file
+   
+   This is the file that contains important settings for PIA and the linuxserver containers.
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+   ```sh
+   cd media_management
+   vim .env
+   ```
+
+   The file will look something like the following:
+   ```ini
+   PUID=1000
+   PGID=1000
+   TZ=America/New_York
+   PIA_USERNAME=myPIAUsername
+   PIA_PASSWORD=myPIAPassword
+   PIA_REGION=US New York
+   ```
+   You'll need to modify it to fit your environment. This repository only has configurations for US New York and US Texas, but you can download your own configurations for PIA directly and copy them to the ./custom/pia folder. They will be copied to the pia container after the init.sh script is run (a later step).
+
+2. Run the init.sh script
+   
+   We need to ensure that the init.sh script is executable first.
+
+   ```sh
+   chmod +x init.sh
+   ```
+
+   Then we can run it.
+
+   ```sh
+   ./init.sh
+   ```
+
+   This script will bring up the environment and then stop the containers. Once stopped it will then copy the config files in ./custom to the respective containers, and once done it will bring the containers back up.
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
+## Open Issues
 
-<!-- ROADMAP -->
-## Roadmap
-
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
-
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/magno101/media_management/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -175,7 +188,7 @@ Don't forget to give the project a star! Thanks again!
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the MIT License. See `LICENSE` for more information.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -184,37 +197,23 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
+Marcus Canales - marcus.canales@gmail.com
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-
-* []()
-* []()
-* []()
+Project Link: [https://github.com/magno101/media_management](https://github.com/magno101/media_management)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/github_username/repo_name.svg?style=for-the-badge
-[contributors-url]: https://github.com/github_username/repo_name/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/github_username/repo_name.svg?style=for-the-badge
-[forks-url]: https://github.com/github_username/repo_name/network/members
-[stars-shield]: https://img.shields.io/github/stars/github_username/repo_name.svg?style=for-the-badge
-[stars-url]: https://github.com/github_username/repo_name/stargazers
-[issues-shield]: https://img.shields.io/github/issues/github_username/repo_name.svg?style=for-the-badge
-[issues-url]: https://github.com/github_username/repo_name/issues
-[license-shield]: https://img.shields.io/github/license/github_username/repo_name.svg?style=for-the-badge
-[license-url]: https://github.com/github_username/repo_name/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/magno101/media_management.svg?style=for-the-badge
+[contributors-url]: https://github.com/magno101/media_management/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/magno101/media_management.svg?style=for-the-badge
+[forks-url]: https://github.com/magno101/media_management/network/members
+[stars-shield]: https://img.shields.io/github/stars/magno101/media_management.svg?style=for-the-badge
+[stars-url]: https://github.com/magno101/media_management/stargazers
+[issues-shield]: https://img.shields.io/github/issues/magno101/media_management.svg?style=for-the-badge
+[issues-url]: https://github.com/magno101/media_management/issues
+[license-shield]: https://img.shields.io/github/license/magno101/media_management.svg?style=for-the-badge
+[license-url]: https://github.com/magno101/media_management/blob/master/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/linkedin_username
-[product-screenshot]: images/screenshot.png
+[linkedin-url]: https://linkedin.com/in/marcuscanales
