@@ -163,6 +163,8 @@ Once the repository is cloned we can get started customizing things.
    * http://IPAddressOfDockerHost:8888/lidarr/
    * http://IPAddressOfDockerHost:8888/sonarr/
    * http://IPAddressOfDockerHost:8888/radarr/
+   
+   Where IPAddressOfDockerHost is the IPv4 address of the host running the containers.
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
