@@ -138,7 +138,7 @@ Once the repository is cloned we can get started customizing things.
    PIA_PASSWORD=myPIAPassword
    PIA_REGION=US New York
    ```
-   You'll need to modify it to fit your environment. This repository only has configurations for US New York and US Texas, but you can download your own configurations for PIA directly and copy them to the ./custom/pia folder. They will be copied to the pia container after the init.sh script is run (a later step).
+   You'll need to modify it to fit your environment. This repository only has configurations for US New York and US Texas, but you can download your own configurations for PIA directly and copy them to the ./custom/pia folder. They will be copied to the pia container after the init.sh script is run.
 
 2. Run the init.sh script
    
